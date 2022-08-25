@@ -92,15 +92,6 @@ git config --list --show-origin
 
 ## How To Use It
 
-基本的 Git 工作流程如下：
-
-- 在 *工作区* 中修改文件
-- 暂存已经更新的文件
-- 提交更新，Git 对 *暂存区* 的文件进行快照并将快照永久性存储到 *Git 目录*
-- 同步本地仓库至 Git 服务器（Optional）
-
-## How To Use It
-
 获取 Git 仓库
 
 将尚未进行版本控制的本地目录转换为 Git 仓库
@@ -108,19 +99,50 @@ git config --list --show-origin
 ```shell
 
 git init
+
+添加远程 Git 服务器（Optional）
+git remote add origin git@git.discoveringgroup.com:docs/git-talk.git
 ```
 
 从其它服务器 克隆 一个已存在的 Git 仓库，HTTP 协议 or Git 协议
 
 ```shell
 
+使用账号密码
 git clone https://git.discoveringgroup.com/docs/git-talk.git
 
+使用 SSH 密钥
 git clone git@git.discoveringgroup.com:docs/git-talk.git
 
 or 重命名本地目录
 
 git clone git@git.discoveringgroup.com:docs/git-talk.git my-git-talk
+```
+
+## How To Use It
+
+忽略文件 *.gitignore* [https://github.com/github/gitignore](https://github.com/github/gitignore)
+
+有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表
+
+```shell
+
+    *.py[cod]
+    *.csv
+
+    .project
+    .pydevproject
+    .DS_Store
+    .python-version
+
+    dist
+    build
+
+    logs/
+    doc/**/*.pdf
+
+    !/setup.py
+
 ```
 
 ## How To Use It
@@ -179,8 +201,12 @@ git remote remove origin
 重新提交，适合提交信息写错或者漏提交了文件需要补的情况
 git commit --amend
 
-取消暂存的文件（回退状态），回退到上一个版本: git reset --hard HEAD^
+取消暂存的文件（回退状态）
 git reset
+
+回退到上一个版本: git reset --hard HEAD^
+回退到上上个版本: git reset --hard HEAD^^
+回退到某一次提交: git reset --hard [commit sha1]
 
 撤消对文件的修改
 git checkout README.md
@@ -188,15 +214,23 @@ git checkout README.md
 
 ## How To Use It
 
+基本的 Git 工作流程如下：
+
+- 在 *工作区* 中修改文件
+- 暂存已经更新的文件
+- 提交更新，Git 对 *暂存区* 的文件进行快照并将快照永久性存储到 *Git 目录*
+- 推送本地仓库至 Git 服务器（Optional）
+
+## How To Use It
+
 操作示例
+
+: cd git-talk && git init
+: git remote add origin git@git.discoveringgroup.com:docs/git-talk.git
 
 ```shell
 
-cd git-talk
-
-git init
-
-git remote add origin git@git.discoveringgroup.com:docs/git-talk.git
+git clone https://git.discoveringgroup.com/docs/git-talk.git
 
 检查当前文件状态
 git status
@@ -212,6 +246,8 @@ git status
 
 提交更新
 git commit -m "add README"
+
+git push origin master
 
 git status
 ```
@@ -230,8 +266,31 @@ git status
 git diff
 
 提交更新
-git commit -m "add README"
+git commit -m "update README"
 
 git push origin master
 
+git log
 ```
+
+## 使用建议
+
+- 尽量使用命令行 `git`
+- 定义好忽略文件 .gitignore
+- 每次提交前使用 `git pull` 获取最新代码（多人协作模式）
+- 每次提交前使用 `git status` 确认变更
+- 每次提交前使用 `git diff` 对代码进行一次 `code review`
+- 写好提交日志
+- One commit a day keep doctor away
+
+## 进阶概念
+
+[https://git-scm.com/book/zh/v2](https://git-scm.com/book/zh/v2)
+
+- 标签 Tag
+- 临时保存 Stash
+- 分支 Branch
+- 分支开发工作流程
+- 合并请求 Merge Request
+- 子模块 Sub Module
+- 持续集成/持续部署 CI/CD
